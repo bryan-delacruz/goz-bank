@@ -1,30 +1,39 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { pathname } = location;
+
+  const isLogin = pathname === "/login" ? true : false;
+
   return (
-    <div className="h-screen bg-gray-400 flex flex-col items-center px-4">
-      <h1 className=" text-gray-900 font-bold text-3xl mt-36 mb-24">
-        GOZ BANK
+    <div className="h-screen bg-bg-primary flex flex-col items-center px-4">
+      <h1 className=" text-primary font-bold text-3xl mt-36 mb-16 text-center text leading-7">
+        GOZ <br />
+        BANK
       </h1>
-      <form className="bg-gray-200 text-gray-600 w-full pt-12  flex flex-col justify-center rounded-md ">
+      <form className="bg-secondary text-primary w-full pt-12  flex flex-col justify-center rounded-md ">
         <div className="mx-6 flex flex-col gap-6">
           <input
-            className="bg-gray-200 outline-none border-b border-gray-300 hover:border-gray-800"
+            className="bg-secondary outline-none border-b hover:border-primary"
             type="text"
             placeholder="Número de tarjeta"
           />
           <div className="flex flex-row gap-2">
-            <select className="w-16 bg-gray-200" name="" id="">
+            <select className="w-16 bg-secondary" name="" id="">
               <option>DNI</option>
             </select>
             <input
-              className="w-full bg-gray-200 outline-none border-b border-gray-300 hover:border-gray-800"
+              className="w-full bg-secondary outline-none border-b  hover:border-primary"
               type="text"
               placeholder="Número de documento"
             />
           </div>
           <input
-            className="bg-gray-200 outline-none border-b border-gray-300 hover:border-gray-800"
+            className="bg-secondary outline-none border-b  hover:border-primary"
             type="password"
             placeholder="Clave web"
           />
@@ -33,15 +42,46 @@ const Login = () => {
             <p>Recordar datos</p>
           </div>
         </div>
-        <button className="bg-gray-600 text-white w-40 mx-auto my-4 py-2 rounded-md hover:bg-gray-800">
-          Ingresar
-        </button>
-        <div className="bg-gray-600 text-gray-200 flex flex-row justify-center text-sm py-4 rounded-b-md">
-          <button className="hover:text-gray-800">Regístrate</button>
+        {isLogin ? (
+          <button className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary">
+            Ingresar
+          </button>
+        ) : (
+          <button className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary">
+            Registrarse
+          </button>
+        )}
+        <div className="bg-primary text-secondary flex flex-row justify-center text-sm py-4 rounded-b-md">
+          {isLogin ? (
+            <button
+              className="hover:text-bg-secondary"
+              onClick={() => navigate("/register")}
+            >
+              Regístrate
+            </button>
+          ) : (
+            <button
+              className="hover:text-bg-secondary"
+              onClick={() => navigate("/login")}
+            >
+              Iniciar Sesión
+            </button>
+          )}
+
           <span className="mx-2">|</span>
-          <button className="hover:text-gray-800">Olvidé mi clave web</button>
+          <button
+            className="hover:text-bg-secondary"
+            onClick={() => alert("Sin funcionalidad por el momento")}
+          >
+            Olvidé mi clave web
+          </button>
           <span className="mx-2">|</span>
-          <button className="hover:text-gray-800">Ayuda</button>
+          <button
+            className="hover:text-bg-secondary"
+            onClick={() => alert("Sin funcionalidad por el momento")}
+          >
+            Ayuda
+          </button>
         </div>
       </form>
     </div>
