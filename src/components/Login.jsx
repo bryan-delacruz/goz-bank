@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const Login = () => {
+export const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -43,11 +43,17 @@ const Login = () => {
           </div>
         </div>
         {isLogin ? (
-          <button className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary">
+          <button
+            className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary"
+            onClick={() => navigate("/home")}
+          >
             Ingresar
           </button>
         ) : (
-          <button className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary">
+          <button
+            className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary"
+            onClick={() => navigate("/home")}
+          >
             Registrarse
           </button>
         )}
@@ -87,5 +93,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;
