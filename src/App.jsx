@@ -9,10 +9,10 @@ import { MenuLayout } from "./layout/MenuLayout";
 function App() {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   navigate("/register");
-  //   console.log("app");
-  // }, []);
+  useEffect(() => {
+    navigate("/login");
+    console.log("app");
+  }, []);
 
   return (
     <Routes>
