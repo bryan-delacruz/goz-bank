@@ -11,11 +11,11 @@ export const NavigationBar = () => {
       </button>
       <button className="pt-2 px-4 flex flex-col items-center">
         <QrCodeIcon className="h-8 text-secondary mb-2" />
-        <span className="self-center text-xs">Productos</span>
+        <span className="self-center text-xs">Scan</span>
       </button>
       <button className="pt-2 px-4 flex flex-col items-center">
         <Cog8ToothIcon className="h-8 text-secondary mb-2" />
-        <span className="self-center text-xs">Productos</span>
+        <span className="self-center text-xs">Más</span>
       </button>
     </div>
   );
