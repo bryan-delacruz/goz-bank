@@ -1,10 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import { BsPiggyBank, BsChevronRight } from "react-icons/Bs";
+import { BanknotesIcon,ChevronRightIcon } from '@heroicons/react/24/outline'
 
 export const Home = () => {
   const navigate = useNavigate();
+
 
   const array = [1];
   return (
@@ -20,7 +21,7 @@ export const Home = () => {
             onClick={() => navigate("/login")}
           >
             <div className="w-2 h-24 bg-bg-secondary" />
-            <BsPiggyBank className="my-4 mx-4 fill-bg-primary" size={"40px"} />
+            <BanknotesIcon className="h-10 my-4 mx-4 text-bg-primary"/>
             <div className="flex flex-col w-full">
               <div className="flex items-center justify-between w-full mb-2">
                 <div className="flex flex-col">
@@ -28,7 +29,7 @@ export const Home = () => {
                   <p>S/ 1000.00</p>
                   <span>Saldo disponible</span>
                 </div>
-                <BsChevronRight className="fill-bg-primary" size={"40px"} />
+                <ChevronRightIcon className="h-10 text-bg-primary" />
               </div>
               <div
                 className={`${
