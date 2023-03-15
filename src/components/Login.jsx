@@ -45,14 +45,14 @@ export const Login = () => {
         {isLogin ? (
           <button
             className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary"
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/home/products")}
           >
             Ingresar
           </button>
         ) : (
           <button
             className="bg-primary text-secondary w-40 mx-auto my-4 py-2 rounded-md hover:bg-bg-primary"
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/home/products")}
           >
             Registrarse
           </button>

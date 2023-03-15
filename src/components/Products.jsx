@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BanknotesIcon,ChevronRightIcon } from '@heroicons/react/24/outline'
 
-export const Home = () => {
+export const Products = () => {
   const navigate = useNavigate();
 
 

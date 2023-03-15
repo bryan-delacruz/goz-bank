@@ -4,7 +4,7 @@ import { NavigationBar } from "../components/NavigationBar";
 
 export const MenuLayout = () => {
   return (
-    <main className="h-screen">
+    <main className="h-screen pb-24">
       <Outlet />
       <NavigationBar />
     </main>
