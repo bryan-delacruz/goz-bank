@@ -21,6 +21,7 @@ function App() {
       <Route element={<MenuLayout />}>
         <Route path="home" element={<Home />} />
       </Route>
+      <Route path="*" element={<Login />}></Route>
     </Routes>
   );
 }
