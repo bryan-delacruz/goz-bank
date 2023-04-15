@@ -12,7 +12,7 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("home/scan");
+    navigate("home/");
   }, []);
 
   return (

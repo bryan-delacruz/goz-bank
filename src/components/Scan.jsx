@@ -1,102 +1,82 @@
 import { useState, useEffect, useRef } from "react";
-
-const constraints = {
-  video: {
-    width: {
-      min: 1280,
-      ideal: 1920,
-      max: 2560,
-    },
-    height: {
-      min: 720,
-      ideal: 1080,
-      max: 1440,
-    },
-  },
-};
-
-const defaultOptionValue = "default";
+import { QrScanner } from "@yudiel/react-qr-scanner";
 
 const Scan = () => {
-  const [videoDevices, setVideoDevices] = useState([]);
-
-  const cameraSelectedRef = useRef(null);
   const videoRef = useRef(null);
-  const streamStartedRef = useRef(false);
+  const streamRef = useRef(null);
 
-  if (streamStartedRef.current) {
-    videoRef.current.play();
-    return;
-  }
+  const [audioSource, setAudioSource] = useState("");
+  const [videoSource, setVideoSource] = useState("");
 
-  const getCameraSelection = async () => {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    setVideoDevices(devices.filter((device) => device.kind === "videoinput"));
-  };
+  const [audioSourceOptions, setAudioSourceOptions] = useState([]);
+  const [videoSourceOptions, setVideoSourceOptions] = useState([]);
+
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getCameraSelection();
+    const prepareStream = async () => {
+      const gotStream = (stream) => {
+        streamRef.current = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      };
+      const getStream = async () => {
+        if (streamRef.current) {
+          streamRef.current.getTracks().forEach((track) => {
+            track.stop();
+          });
+        }
+        const constraints = {
+          audio: {
+            deviceId: audioSource !== "" ? { exact: audioSource } : undefined,
+          },
+          video: {
+            deviceId: videoSource !== "" ? { exact: videoSource } : undefined,
+          },
+        };
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          gotStream(stream);
+        } catch (e) {
+          setError(e);
+        }
+      };
+      const getDevices = () => {
+        return navigator.mediaDevices.enumerateDevices();
+      };
+      const gotDevices = (deviceInfos) => {
+        const audioSourceOptions = [];
+        const videoSourceOptions = [];
+        for (const deviceInfo of deviceInfos) {
+          if (deviceInfo.kind === "audioinput") {
+            audioSourceOptions.push({
+              value: deviceInfo.deviceId,
+              label: deviceInfo.label || `Microphone ${deviceInfo.deviceId}`,
+            });
+          } else if (deviceInfo.kind === "videoinput") {
+            videoSourceOptions.push({
+              value: deviceInfo.deviceId,
+              label: deviceInfo.label || `Camera ${deviceInfo.deviceId}`,
+            });
+          }
+        }
+        setAudioSourceOptions(audioSourceOptions);
+        setVideoSourceOptions(videoSourceOptions);
+      };
+      await getStream();
+      const mediaDevices = await getDevices();
+      gotDevices(mediaDevices);
+    };
+    prepareStream();
   }, []);
 
-  const handleCameraSelected = (e) => {
-    cameraSelectedRef.current = e.target.value;
-  };
-
-  const handleStream = (stream) => {
-    videoRef.current.srcObject = stream;
-    videoRef.current.play();
-    streamStartedRef.current = true;
-  };
-  const startStream = async (constraints) => {
-    const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    handleStream(stream);
-  };
-
-  const playBtn = () => {
-    if (streamStartedRef.current) {
-      videoRef.current.play();
-      return;
-    }
-    if ("mediaDevices" in navigator && navigator.mediaDevices.getUserMedia) {
-      const updatedConstraints = {
-        ...constraints,
-        deviceId: {
-          exact: cameraSelectedRef.current.value,
-        },
-      };
-      console.log(cameraSelectedRef.current.value);
-      startStream(updatedConstraints);
-    }
-  };
-
   return (
-    <div>
-      <video ref={videoRef}></video>
-      <select ref={cameraSelectedRef} onChange={(e) => handleCameraSelected(e)}>
-        <option key="default" value={defaultOptionValue}>
-          Select camera
-        </option>
-        {videoDevices?.map((vd) => (
-          <option key={vd.deviceId} value={vd.deviceId}>
-            {vd.label}
-          </option>
-        ))}
-      </select>
-      <div className="flex gap-4 ">
-        <button className="border" title="Play" onClick={playBtn}>
-          Play
-        </button>
-        <button className="border btn btn-info pause d-none" title="Pause">
-          Pause
-        </button>
-        <button
-          className="border btn btn-outline-success screenshot d-none"
-          title="ScreenShot"
-        >
-          ScreenShot
-        </button>
-      </div>
-    </div>
+    <QrScanner
+      facingMode={"user"}
+      onDecode={(result) => console.log(result)}
+      onError={(error) => console.log(error?.message)}
+    />
   );
 };
 
